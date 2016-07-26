@@ -1,7 +1,7 @@
 ﻿namespace ConfigEx
 {
     /// <summary>
-    /// Provides <see cref="IConfigReader"/>s for main and local Assembly configurations.
+    /// Provides readers for main and local Assembly configurations.
     /// </summary>
     public sealed class Config
     {
@@ -12,12 +12,12 @@
         }
 
         /// <summary>
-        /// The <see cref="IConfigReader"/> that reads values from the Entry Assembly configuration.
+        /// The reader that reads values from the Entry Assembly configuration.
         /// </summary>
         public static IConfigReader Main { get; set; }
 
         /// <summary>
-        /// The <see cref="IConfigReader"/> that reads values from the Calling Assembly configuration.
+        /// The reader that reads values from the Calling Assembly configuration.
         /// </summary>
         public static IConfigReader Local { get; set; }
     }
