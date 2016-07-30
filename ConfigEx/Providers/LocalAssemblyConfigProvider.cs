@@ -5,9 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 
-namespace ConfigEx
+namespace ConfigEx.Providers
 {
-    public sealed class LocalConfigProvider : IConfigProvider
+    public sealed class LocalAssemblyConfigProvider : IConfigProvider
     {
         public Configuration Get()
         {
@@ -29,7 +29,7 @@ namespace ConfigEx
             }
             catch (Exception ex)
             {
-                throw new FileNotFoundException($"Failed to open config file '{asm.Location}'", ex);
+                throw new FileNotFoundException($"Failed to open config file of assembly '{asm.Location}'", ex);
             }
         }
     }

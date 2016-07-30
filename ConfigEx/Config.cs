@@ -1,4 +1,8 @@
-﻿namespace ConfigEx
+﻿using ConfigEx.Converters;
+using ConfigEx.Providers;
+using ConfigEx.Readers;
+
+namespace ConfigEx
 {
     /// <summary>
     /// Provides readers for main and local Assembly configurations.
@@ -7,8 +11,9 @@
     {
         static Config()
         {
-            Main = new DefaultConfigReader(new MainConfigProvider());
-            Local = new DefaultConfigReader(new LocalConfigProvider());
+            var converter = new TypeConverter();
+            Main = new AssemblyConfigReader(new MainAssemblyConfigProvider(), converter);
+            Local = new AssemblyConfigReader(new LocalAssemblyConfigProvider(), converter);
         }
 
         /// <summary>

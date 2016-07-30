@@ -1,19 +1,22 @@
-﻿using System.ComponentModel;
-using System.Configuration;
+﻿using System.Configuration;
+using ConfigEx.Converters;
+using ConfigEx.Providers;
 
-namespace ConfigEx
+namespace ConfigEx.Readers
 {
     /// <summary>
     /// The default implementation of <see cref="IConfigReader"/> that reads configuration settings from the
     /// <see cref="Configuration"/> provided by <see cref="IConfigProvider"/>.
     /// </summary>
-    public sealed class DefaultConfigReader : IConfigReader
+    public sealed class AssemblyConfigReader : IConfigReader
     {
         private readonly IConfigProvider _configProvider;
+        private readonly ITypeConverter _typeConverter;
 
-        public DefaultConfigReader(IConfigProvider configProvider)
+        public AssemblyConfigReader(IConfigProvider configProvider, ITypeConverter typeConverter)
         {
             _configProvider = configProvider;
+            _typeConverter = typeConverter;
         }
 
         /// <summary>
@@ -40,9 +43,7 @@ namespace ConfigEx
                 return defaultValue;
             }
 
-            // Convert value from string to target type.
-            var converter = TypeDescriptor.GetConverter(typeof(T));
-            return (T)converter.ConvertFromString(value);
+            return _typeConverter.Convert<T>(value);
         }
     }
 }

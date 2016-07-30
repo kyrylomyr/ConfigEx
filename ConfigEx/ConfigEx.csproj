@@ -44,13 +44,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
-    <Compile Include="DefaultConfigReader.cs" />
-    <Compile Include="IConfigProvider.cs" />
-    <Compile Include="IConfigReader.cs" />
-    <Compile Include="LocalConfigProvider.cs" />
-    <Compile Include="MainConfigProvider.cs" />
+    <Compile Include="Converters\ITypeConverter.cs" />
+    <Compile Include="Converters\TypeConverter.cs" />
+    <Compile Include="Readers\AssemblyConfigReader.cs" />
+    <Compile Include="Providers\IConfigProvider.cs" />
+    <Compile Include="Readers\IConfigReader.cs" />
+    <Compile Include="Providers\LocalAssemblyConfigProvider.cs" />
+    <Compile Include="Providers\MainAssemblyConfigProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

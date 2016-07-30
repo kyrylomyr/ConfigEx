@@ -1,6 +1,6 @@
 ﻿using System.Configuration;
 
-namespace ConfigEx
+namespace ConfigEx.Providers
 {
     public interface IConfigProvider
     {
