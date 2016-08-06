@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace ConfigEx.Converters
+namespace ConfigEx.TypeConverters
 {
     public class TypeConverter : ITypeConverter
     {

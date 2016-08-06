@@ -1,29 +1,24 @@
-﻿using ConfigEx.Converters;
-using ConfigEx.Providers;
-using ConfigEx.Readers;
+﻿using ConfigEx.AssemblyProviders;
+using ConfigEx.ConfigProviders;
+using ConfigEx.ConfigReaders;
+using ConfigEx.TypeConverters;
 
 namespace ConfigEx
 {
-    /// <summary>
-    /// Provides readers for main and local Assembly configurations.
-    /// </summary>
     public sealed class Config
     {
+        private static IConfigReader _mainConfigReader;
+        private static IConfigReader _localConfigReader;
+
         static Config()
         {
             var converter = new TypeConverter();
-            Main = new AssemblyConfigReader(new MainAssemblyConfigProvider(), converter);
-            Local = new AssemblyConfigReader(new LocalAssemblyConfigProvider(), converter);
+
+            var mainProvider = new AssemblyConfigProvider(new MainAssemblyProvider());
+            var localProvider = new AssemblyConfigProvider(new LocalAssemblyProvider());
+
+            _mainConfigReader = new ConfigReader(mainProvider, converter);
+            _localConfigReader = new ConfigReader(localProvider, converter);
         }
-
-        /// <summary>
-        /// The reader that reads values from the Entry Assembly configuration.
-        /// </summary>
-        public static IConfigReader Main { get; set; }
-
-        /// <summary>
-        /// The reader that reads values from the Calling Assembly configuration.
-        /// </summary>
-        public static IConfigReader Local { get; set; }
     }
 }

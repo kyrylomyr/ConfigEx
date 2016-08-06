@@ -20,7 +20,8 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\ConfigEx.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,7 +30,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\ConfigEx.xml</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,17 +45,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AssemblyProviders\IAssemblyProvider.cs" />
+    <Compile Include="AssemblyProviders\LocalAssemblyProvider.cs" />
+    <Compile Include="AssemblyProviders\MainAssemblyProvider.cs" />
     <Compile Include="Config.cs" />
-    <Compile Include="Converters\ITypeConverter.cs" />
-    <Compile Include="Converters\TypeConverter.cs" />
-    <Compile Include="Readers\AssemblyConfigReader.cs" />
-    <Compile Include="Providers\IConfigProvider.cs" />
-    <Compile Include="Readers\IConfigReader.cs" />
-    <Compile Include="Providers\LocalAssemblyConfigProvider.cs" />
-    <Compile Include="Providers\MainAssemblyConfigProvider.cs" />
+    <Compile Include="TypeConverters\ITypeConverter.cs" />
+    <Compile Include="TypeConverters\TypeConverter.cs" />
+    <Compile Include="ConfigReaders\ConfigReader.cs" />
+    <Compile Include="ConfigProviders\IConfigProvider.cs" />
+    <Compile Include="ConfigReaders\IConfigReader.cs" />
+    <Compile Include="ConfigProviders\AssemblyConfigProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ConfigCache\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
