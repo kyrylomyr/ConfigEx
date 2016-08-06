@@ -9,9 +9,9 @@ namespace ConfigEx.ConfigCache
         private readonly ConcurrentDictionary<string, Configuration> _cache =
             new ConcurrentDictionary<string, Configuration>();
 
-        public Configuration GetOrAdd(string fullAssemblyName, Func<Configuration> getConfig)
+        public Configuration GetOrAdd(string key, Func<Configuration> getConfig)
         {
-            return _cache.GetOrAdd(fullAssemblyName, getConfig());
+            return _cache.GetOrAdd(key, getConfig());
         }
     }
 }

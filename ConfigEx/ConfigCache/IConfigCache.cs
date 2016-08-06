@@ -5,6 +5,6 @@ namespace ConfigEx.ConfigCache
 {
     public interface IConfigCache
     {
-        Configuration GetOrAdd(string fullAssemblyName, Func<Configuration> getConfig);
+        Configuration GetOrAdd(string key, Func<Configuration> getConfig);
     }
 }
