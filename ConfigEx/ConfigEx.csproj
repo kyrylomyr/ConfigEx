@@ -49,6 +49,8 @@
     <Compile Include="AssemblyProviders\LocalAssemblyProvider.cs" />
     <Compile Include="AssemblyProviders\MainAssemblyProvider.cs" />
     <Compile Include="Config.cs" />
+    <Compile Include="ConfigCache\AssemblyConfigCache.cs" />
+    <Compile Include="ConfigCache\IConfigCache.cs" />
     <Compile Include="TypeConverters\ITypeConverter.cs" />
     <Compile Include="TypeConverters\TypeConverter.cs" />
     <Compile Include="ConfigReaders\ConfigReader.cs" />
@@ -57,9 +59,7 @@
     <Compile Include="ConfigProviders\AssemblyConfigProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ConfigCache\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
