@@ -17,15 +17,15 @@ namespace ConfigEx.ConfigReaders
 
         public bool KeyExists(string key)
         {
-            var config = _configProvider.Get();
+            var config = _configProvider.GetConfig();
 
             string value;
             return Exists(config, key, out value);
         }
 
-        public T Get<T>(string key, T defaultValue = default(T))
+        public T ReadSetting<T>(string key, T defaultValue = default(T))
         {
-            var config = _configProvider.Get();
+            var config = _configProvider.GetConfig();
 
             string value;
             if (Exists(config, key, out value))

@@ -4,6 +4,6 @@ namespace ConfigEx.ConfigProviders
 {
     public interface IConfigProvider
     {
-        Configuration Get();
+        Configuration GetConfig();
     }
 }

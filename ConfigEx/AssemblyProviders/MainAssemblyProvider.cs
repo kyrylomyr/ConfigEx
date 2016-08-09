@@ -4,7 +4,7 @@ namespace ConfigEx.AssemblyProviders
 {
     public sealed class MainAssemblyProvider : IAssemblyProvider
     {
-        public Assembly Get()
+        public Assembly GetAssembly()
         {
             return Assembly.GetEntryAssembly();
         }

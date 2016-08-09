@@ -9,39 +9,38 @@ namespace ConfigEx
         private static IConfigReader _mainConfigReader;
         private static IConfigReader _localConfigReader;
 
-        public static T GetMain<T>(string key, T defaultValue = default(T))
+        public static T GetMainSetting<T>(string key, T defaultValue = default(T))
         {
-            return _mainConfigReader.Get(key, defaultValue);
+            return _mainConfigReader.ReadSetting(key, defaultValue);
         }
 
-        public static T GetLocal<T>(string key, T defaultValue = default(T))
+        public static T GetLocalSetting<T>(string key, T defaultValue = default(T))
         {
-            return _localConfigReader.Get(key, defaultValue);
+            return _localConfigReader.ReadSetting(key, defaultValue);
         }
 
-        public static T GetOverridden<T>(string key, T defaultValue = default(T))
+        public static T GetOverriddenSetting<T>(string key, T defaultValue = default(T))
         {
-            return IsOverridden(key) ? GetMain(key, defaultValue) : GetLocal(key, defaultValue);
+            return SettingIsOverridden(key) ? GetMainSetting(key, defaultValue) : GetLocalSetting(key, defaultValue);
         }
 
-        public static bool MainExists(string key)
+        public static bool MainSettingExists(string key)
         {
             return _mainConfigReader.KeyExists(key);
         }
 
-        public static bool LocalExists(string key)
+        public static bool LocalSettingExists(string key)
         {
             return _localConfigReader.KeyExists(key);
         }
 
-        public static bool IsOverridden(string key)
+        public static bool SettingIsOverridden(string key)
         {
-            return LocalExists(key) && MainExists(key);
+            return LocalSettingExists(key) && MainSettingExists(key);
         }
 
         public static void Init(IConfigReader mainConfigReader, IConfigReader localConfigReader)
         {
-            
         }
 
         public static void Init(IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider, ITypeConverter typeConverter)

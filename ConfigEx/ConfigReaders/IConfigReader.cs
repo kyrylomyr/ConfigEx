@@ -4,6 +4,6 @@
     {
         bool KeyExists(string key);
 
-        T Get<T>(string key, T defaultValue = default(T));
+        T ReadSetting<T>(string key, T defaultValue = default(T));
     }
 }

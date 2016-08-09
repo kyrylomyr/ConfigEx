@@ -7,7 +7,7 @@ namespace ConfigEx.AssemblyProviders
 {
     public sealed class LocalAssemblyProvider : IAssemblyProvider
     {
-        public Assembly Get()
+        public Assembly GetAssembly()
         {
             // Find first Assembly outside the current one - that is the Assembly from where the code is called.
             var currentAssembly = Assembly.GetExecutingAssembly();

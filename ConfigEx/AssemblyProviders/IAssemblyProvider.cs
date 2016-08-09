@@ -4,6 +4,6 @@ namespace ConfigEx.AssemblyProviders
 {
     public interface IAssemblyProvider
     {
-        Assembly Get();
+        Assembly GetAssembly();
     }
 }

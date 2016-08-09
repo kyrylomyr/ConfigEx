@@ -18,15 +18,15 @@ namespace ConfigEx.ConfigProviders
             _configCache = configCache;
         }
 
-        public Configuration Get()
+        public Configuration GetConfig()
         {
-            var assembly = _assemblyProvider.Get();
+            var assembly = _assemblyProvider.GetAssembly();
             if (assembly == null)
             {
                 throw new Exception("Assembly, returned by provider, can not be null");
             }
 
-            return _configCache.GetOrAdd(assembly.FullName, () => GetActualConfig(assembly));
+            return _configCache.GetOrAddConfig(assembly.FullName, () => GetActualConfig(assembly));
         }
 
         private static Configuration GetActualConfig(Assembly assembly)
