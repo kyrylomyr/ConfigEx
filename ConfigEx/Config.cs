@@ -1,7 +1,4 @@
-﻿using System;
-using ConfigEx.AssemblyProviders;
-using ConfigEx.ConfigCache;
-using ConfigEx.ConfigProviders;
+﻿using ConfigEx.ConfigProviders;
 using ConfigEx.ConfigReaders;
 using ConfigEx.TypeConverters;
 
@@ -9,59 +6,57 @@ namespace ConfigEx
 {
     public static class Config
     {
-        private static readonly Lazy<IConfigReader> _lazyMainConfigReader =
-            new Lazy<IConfigReader>(InitMainConfigReader);
+        private static IConfigReader _mainConfigReader;
+        private static IConfigReader _localConfigReader;
 
-        private static readonly Lazy<IConfigReader> _lazyLocalConfigReader =
-            new Lazy<IConfigReader>(InitLocalConfigReader);
-
-        private static ITypeConverter _typeConverter;
-
-        private static IConfigReader MainConfigReader => _lazyMainConfigReader.Value;
-        private static IConfigReader LocalConfigReader => _lazyLocalConfigReader.Value;
-
-        public static void SetTypeConverter(ITypeConverter typeConverter)
+        public static T GetMain<T>(string key, T defaultValue = default(T))
         {
-            if (typeConverter == null)
-            {
-                throw new ArgumentNullException(nameof(typeConverter), "Type Converter can not be null");
-            }
-
-            if (_lazyMainConfigReader.IsValueCreated || _lazyLocalConfigReader.IsValueCreated)
-            {
-                throw new ArgumentException(
-                    "Can not set Type Converter for already initialized Config Readers. Type Converter can be set before any Config read operation is done.");
-            }
-
-            TypeConverter = typeConverter;
+            return _mainConfigReader.Get(key, defaultValue);
         }
 
-        public static ITypeConverter TypeConverter
+        public static T GetLocal<T>(string key, T defaultValue = default(T))
         {
-            private get { return _typeConverter; }
-            set { _typeConverter = value; }
+            return _localConfigReader.Get(key, defaultValue);
         }
 
-        private static IConfigReader InitMainConfigReader()
+        public static T GetOverridden<T>(string key, T defaultValue = default(T))
         {
-            var assemblyProvider = new MainAssemblyProvider();
-            return CreateDefaultConfigReader(assemblyProvider);
+            return IsOverridden(key) ? GetMain(key, defaultValue) : GetLocal(key, defaultValue);
         }
 
-        private static IConfigReader InitLocalConfigReader()
+        public static bool MainExists(string key)
         {
-            var assemblyProvider = new LocalAssemblyProvider();
-            return CreateDefaultConfigReader(assemblyProvider);
+            return _mainConfigReader.KeyExists(key);
         }
 
-        private static IConfigReader CreateDefaultConfigReader(IAssemblyProvider assemblyProvider)
+        public static bool LocalExists(string key)
         {
-            var configCache = new AssemblyConfigCache();
+            return _localConfigReader.KeyExists(key);
+        }
 
-            var mainProvider = new AssemblyConfigProvider(assemblyProvider, configCache);
-            var typeConverter = TypeConverter ?? new TypeConverter();
+        public static bool IsOverridden(string key)
+        {
+            return LocalExists(key) && MainExists(key);
+        }
 
-            return new ConfigReader(mainProvider, typeConverter);
+        public static void Init(IConfigReader mainConfigReader, IConfigReader localConfigReader)
+        {
+            
+        }
+
+        public static void Init(IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider, ITypeConverter typeConverter)
+        {
+
+        }
+
+        public static void Init(IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider)
+        {
+
+        }
+
+        public static void Init(ITypeConverter typeConverter)
+        {
+
         }
     }
 }
