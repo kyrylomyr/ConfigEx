@@ -7,13 +7,10 @@ namespace ConfigEx.ConfigReaders
 {
     internal sealed class ConfigReaderFactory
     {
-        public IConfigReader Create()
+        public IConfigReader Create(ITypeConverter typeConverter = null)
         {
             var assemblyProvider = new MainAssemblyProvider();
-            var configCache = new AssemblyConfigCache();
-            var configProvider = new AssemblyConfigProvider(assemblyProvider, configCache);
-            var typeConverter = new TypeConverter();
-            return Create(configProvider, typeConverter);
+            return Create(assemblyProvider, typeConverter);
         }
 
         public IConfigReader Create(IAssemblyProvider assemblyProvider, ITypeConverter typeConverter = null)
@@ -27,5 +24,6 @@ namespace ConfigEx.ConfigReaders
         {
             return new ConfigReader(configProvider, typeConverter ?? new TypeConverter());
         }
+    }
     }
 }
