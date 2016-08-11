@@ -7,32 +7,15 @@ namespace ConfigEx
 {
     public static class Config
     {
-        private static readonly ConfigReaderFactory _readerFactory = new ConfigReaderFactory();
-
         private static IConfigReader _mainConfigReader;
         private static IConfigReader _localConfigReader;
 
         static Config()
         {
-            _mainConfigReader = _readerFactory.Create(new MainAssemblyProvider());
-            _localConfigReader = _readerFactory.Create(new LocalAssemblyProvider());
+            var factory = new ConfigReaderFactory();
+            _mainConfigReader = factory.Create(new MainAssemblyProvider());
+            _localConfigReader = factory.Create(new LocalAssemblyProvider());
         }
-
-        #region Single config
-
-        public static T GetSetting<T>(string key, T defaultValue = default(T))
-        {
-            return _mainConfigReader.ReadSetting(key, defaultValue);
-        }
-
-        public static bool SettingExists(string key)
-        {
-            return _mainConfigReader.KeyExists(key);
-        }
-
-        #endregion
-
-        #region Main and Local configs
 
         public static T GetMainSetting<T>(string key, T defaultValue = default(T))
         {
@@ -64,49 +47,30 @@ namespace ConfigEx
             return LocalSettingExists(key) && MainSettingExists(key);
         }
 
-        #endregion
-
-        #region Init
-
-        public static void Init(IConfigReader configReader)
+        public static void Init(ITypeConverter converter)
         {
-            _mainConfigReader = configReader;
+            var factory = new ConfigReaderFactory();
+            _mainConfigReader = factory.Create(converter);
         }
 
-        public static void Init(IConfigProvider configProvider, ITypeConverter typeConverter)
+        public static void Init(IConfigReader mainReader, IConfigReader localReader)
         {
-            _mainConfigReader = _readerFactory.Create(configProvider, typeConverter);
+            _mainConfigReader = mainReader;
+            _localConfigReader = localReader;
         }
 
-        public static void Init(IConfigProvider configProvider)
+        public static void Init(IConfigProvider mainProvider, IConfigProvider localProvider, ITypeConverter converter)
         {
-            _mainConfigReader = _readerFactory.Create(configProvider);
+            var factory = new ConfigReaderFactory();
+            _mainConfigReader = factory.Create(mainProvider, converter);
+            _localConfigReader = factory.Create(localProvider, converter);
         }
 
-        public static void Init(ITypeConverter typeConverter)
+        public static void Init(IConfigProvider mainProvider, IConfigProvider localProvider)
         {
-            _mainConfigReader = _readerFactory.Create(typeConverter);
+            var factory = new ConfigReaderFactory();
+            _mainConfigReader = factory.Create(mainProvider);
+            _localConfigReader = factory.Create(localProvider);
         }
-
-        public static void Init(IConfigReader mainConfigReader, IConfigReader localConfigReader)
-        {
-            _mainConfigReader = mainConfigReader;
-            _localConfigReader = localConfigReader;
-        }
-
-        public static void Init(
-            IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider, ITypeConverter typeConverter)
-        {
-            _mainConfigReader = _readerFactory.Create(mainConfigProvider, typeConverter);
-            _localConfigReader = _readerFactory.Create(localConfigProvider, typeConverter);
-        }
-
-        public static void Init(IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider)
-        {
-            _mainConfigReader = _readerFactory.Create(mainConfigProvider);
-            _localConfigReader = _readerFactory.Create(localConfigProvider);
-        }
-
-        #endregion
     }
 }
