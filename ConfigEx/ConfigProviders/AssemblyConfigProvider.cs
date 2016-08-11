@@ -12,8 +12,13 @@ namespace ConfigEx.ConfigProviders
         private readonly IAssemblyProvider _assemblyProvider;
         private readonly IConfigCache _configCache;
 
-        public AssemblyConfigProvider(IAssemblyProvider assemblyProvider, IConfigCache configCache)
+        public AssemblyConfigProvider(IAssemblyProvider assemblyProvider, IConfigCache configCache = null)
         {
+            if (assemblyProvider == null)
+            {
+                throw new ArgumentNullException(nameof(assemblyProvider), "Assembly Provider can not be null");
+            }
+
             _assemblyProvider = assemblyProvider;
             _configCache = configCache;
         }
@@ -26,7 +31,9 @@ namespace ConfigEx.ConfigProviders
                 throw new Exception("Assembly, returned by provider, can not be null");
             }
 
-            return _configCache.GetOrAddConfig(assembly.FullName, () => GetActualConfig(assembly));
+            return _configCache == null
+                       ? GetActualConfig(assembly)
+                       : _configCache.GetOrAddConfig(assembly.FullName, () => GetActualConfig(assembly));
         }
 
         private static Configuration GetActualConfig(Assembly assembly)
