@@ -45,19 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AssemblyProviders\IAssemblyProvider.cs" />
-    <Compile Include="AssemblyProviders\LocalAssemblyProvider.cs" />
-    <Compile Include="AssemblyProviders\MainAssemblyProvider.cs" />
-    <Compile Include="Config.cs" />
-    <Compile Include="ConfigCache\AssemblyConfigCache.cs" />
-    <Compile Include="ConfigCache\IConfigCache.cs" />
-    <Compile Include="ConfigReaders\ConfigReaderFactory.cs" />
-    <Compile Include="TypeConverters\ITypeConverter.cs" />
-    <Compile Include="TypeConverters\TypeConverter.cs" />
-    <Compile Include="ConfigReaders\ConfigReader.cs" />
-    <Compile Include="ConfigProviders\IConfigProvider.cs" />
-    <Compile Include="ConfigReaders\IConfigReader.cs" />
-    <Compile Include="ConfigProviders\AssemblyConfigProvider.cs" />
+    <Compile Include="ConfigBase.cs" />
+    <Compile Include="ITypeConverter.cs" />
+    <Compile Include="TypeConverter.cs" />
+    <Compile Include="ConfigReader.cs" />
+    <Compile Include="IConfigReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

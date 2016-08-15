@@ -1,4 +1,4 @@
-﻿namespace ConfigEx.TypeConverters
+﻿namespace ConfigEx
 {
     public interface ITypeConverter
     {
