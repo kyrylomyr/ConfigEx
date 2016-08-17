@@ -54,7 +54,7 @@ namespace ConfigEx
             Init(null, null);
         }
 
-        protected T Get<T>([CallerMemberName] string key = null, T defaultValue = default(T))
+        protected T Get<T>(T defaultValue = default(T), [CallerMemberName] string key = null)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(key), "Key can not be null or empty");
 
