@@ -2,6 +2,6 @@
 {
     public interface IConfigReader
     {
-        string Get(string key);
+        string Get(string key, bool overridable = true);
     }
 }

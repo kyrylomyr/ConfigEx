@@ -21,7 +21,7 @@ namespace ConfigEx
             _localConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(localConfigProvider));
         }
 
-        public string Get(string key)
+        public string Get(string key, bool overridable = true)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(key), "Key can not be null or empty");
 
@@ -29,6 +29,11 @@ namespace ConfigEx
             if (localSetting == null)
             {
                 return null;
+            }
+
+            if (!overridable)
+            {
+                return localSetting.Value ?? string.Empty;
             }
 
             // Local setting can be overridden in the main configuration.

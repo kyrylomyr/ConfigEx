@@ -54,11 +54,11 @@ namespace ConfigEx
             Init(null, null);
         }
 
-        protected T Get<T>(T defaultValue = default(T), [CallerMemberName] string key = null)
+        protected T Get<T>(T defaultValue = default(T), bool overridable = true, [CallerMemberName] string key = null)
         {
             Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(key), "Key can not be null or empty");
 
-            var value = _configReader.Get(key);
+            var value = _configReader.Get(key, overridable);
             return value == null ? defaultValue : _typeConverter.Convert<T>(value);
         }
 
