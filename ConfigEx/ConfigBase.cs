@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.Contracts;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
@@ -9,73 +10,41 @@ namespace ConfigEx
         private IConfigReader _configReader;
         private ITypeConverter _typeConverter;
 
-        protected ConfigBase(
-            IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider, ITypeConverter typeConverter)
+        protected ConfigBase(IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider, ITypeConverter typeConverter)
         {
-            if (mainConfigProvider == null)
-            {
-                throw new ArgumentNullException(nameof(mainConfigProvider), "Main Config Provider can not be null");
-            }
-
-            if (localConfigProvider == null)
-            {
-                throw new ArgumentNullException(nameof(localConfigProvider), "Local Config Provider can not be null");
-            }
-
-            if (typeConverter == null)
-            {
-                throw new ArgumentNullException(nameof(typeConverter), "Type Converter can not be null");
-            }
+            Contract.Requires<ArgumentNullException>(mainConfigProvider != null, "Main Config Provider can not be null");
+            Contract.Requires<ArgumentNullException>(localConfigProvider != null, "Local Config Provider can not be null");
+            Contract.Requires<ArgumentNullException>(typeConverter != null, "Type Converter can not be null");
 
             Init(CreateConfigProvider(mainConfigProvider, localConfigProvider), typeConverter);
         }
 
         protected ConfigBase(IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider)
         {
-            if (mainConfigProvider == null)
-            {
-                throw new ArgumentNullException(nameof(mainConfigProvider), "Main Config Provider can not be null");
-            }
-
-            if (localConfigProvider == null)
-            {
-                throw new ArgumentNullException(nameof(localConfigProvider), "Local Config Provider can not be null");
-            }
+            Contract.Requires<ArgumentNullException>(mainConfigProvider != null, "Main Config Provider can not be null");
+            Contract.Requires<ArgumentNullException>(localConfigProvider != null, "Local Config Provider can not be null");
 
             Init(CreateConfigProvider(mainConfigProvider, localConfigProvider), null);
         }
 
         protected ConfigBase(IConfigReader configReader, ITypeConverter typeConverter)
         {
-            if (configReader == null)
-            {
-                throw new ArgumentNullException(nameof(configReader), "Config Reader can not be null");
-            }
-
-            if (typeConverter == null)
-            {
-                throw new ArgumentNullException(nameof(typeConverter), "Type Converter can not be null");
-            }
+            Contract.Requires<ArgumentNullException>(configReader != null, "Config Reader can not be null");
+            Contract.Requires<ArgumentNullException>(typeConverter != null, "Type Converter can not be null");
 
             Init(configReader, typeConverter);
         }
 
         protected ConfigBase(ITypeConverter typeConverter)
         {
-            if (typeConverter == null)
-            {
-                throw new ArgumentNullException(nameof(typeConverter), "Type Converter can not be null");
-            }
+            Contract.Requires<ArgumentNullException>(typeConverter != null, "Type Converter can not be null");
 
             Init(null, typeConverter);
         }
 
         protected ConfigBase(IConfigReader configReader)
         {
-            if (configReader == null)
-            {
-                throw new ArgumentNullException(nameof(configReader), "Config Reader can not be null");
-            }
+            Contract.Requires<ArgumentNullException>(configReader != null, "Config Reader can not be null");
 
             Init(configReader, null);
         }
@@ -87,6 +56,8 @@ namespace ConfigEx
 
         protected T Get<T>([CallerMemberName] string key = null, T defaultValue = default(T))
         {
+            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(key), "Key can not be null or empty");
+
             var value = _configReader.Get(key);
             return value == null ? defaultValue : _typeConverter.Convert<T>(value);
         }

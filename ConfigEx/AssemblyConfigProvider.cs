@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Configuration;
+using System.Diagnostics.Contracts;
 using System.IO;
 using System.Reflection;
 
@@ -11,10 +12,7 @@ namespace ConfigEx
 
         public AssemblyConfigProvider(Assembly assembly)
         {
-            if (assembly == null)
-            {
-                throw new ArgumentNullException(nameof(assembly), "Assembly can not be null");
-            }
+            Contract.Requires<ArgumentNullException>(assembly != null, "Assembly can not be null");
 
             _assembly = assembly;
         }
