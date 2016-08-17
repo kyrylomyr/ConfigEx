@@ -1,77 +1,50 @@
 ﻿using System;
 using System.Configuration;
-using System.IO;
-using System.Reflection;
 
 namespace ConfigEx
 {
     public sealed class ConfigReader : IConfigReader
     {
-        private readonly Configuration _mainConfiguration;
-        private readonly Configuration _localConfiguration;
+        private readonly Lazy<Configuration> _mainConfigurationLazy;
+        private readonly Lazy<Configuration> _localConfigurationLazy;
 
-        public ConfigReader()
+        private Configuration MainConfiguration => _mainConfigurationLazy.Value;
+        private Configuration LocalConfiguration => _localConfigurationLazy.Value;
+
+        public ConfigReader(IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider)
         {
-            _mainConfiguration = GetConfig(Assembly.GetEntryAssembly());
-            _localConfiguration = GetConfig(Assembly.GetCallingAssembly());
+            if (mainConfigProvider == null)
+            {
+                throw new ArgumentNullException(nameof(mainConfigProvider), "Main Config Provider can not be null");
+            }
+
+            if (localConfigProvider == null)
+            {
+                throw new ArgumentNullException(nameof(localConfigProvider), "Local Config Provider can not be null");
+            }
+
+            _mainConfigurationLazy = new Lazy<Configuration>(mainConfigProvider.Get);
+            _localConfigurationLazy = new Lazy<Configuration>(localConfigProvider.Get);
         }
 
-        public bool SettingExists(string key)
+        public string Get(string key)
         {
             if (string.IsNullOrEmpty(key))
             {
                 throw new ArgumentException("Key can not be null or empty", nameof(key));
             }
 
-            string value;
-            return SettingExists(_localConfiguration, key, out value);
-        }
-
-        public string ReadSetting(string key, string defaultValue = null)
-        {
-            if (string.IsNullOrEmpty(key))
+            var localSetting = LocalConfiguration.AppSettings.Settings[key];
+            if (localSetting == null)
             {
-                throw new ArgumentException("Key can not be null or empty", nameof(key));
+                return null;
             }
 
-            string localConfigValue;
-            if (SettingExists(_localConfiguration, key, out localConfigValue))
-            {
-                string mainConfigValue;
-                if (SettingExists(_mainConfiguration, key, out mainConfigValue))
-                {
-                    return mainConfigValue;
-                }
+            // Local setting can be overridden in the main configuration.
+            var mainSetting = MainConfiguration.AppSettings.Settings[key];
 
-                return localConfigValue;
-            }
-
-            return defaultValue;
-        }
-
-        private static bool SettingExists(Configuration config, string key, out string value)
-        {
-            var setting = config.AppSettings.Settings[key];
-            if (setting != null)
-            {
-                value = setting.Value;
-                return true;
-            }
-
-            value = null;
-            return false;
-        }
-
-        private static Configuration GetConfig(Assembly assembly)
-        {
-            try
-            {
-                return ConfigurationManager.OpenExeConfiguration(assembly.Location);
-            }
-            catch (Exception ex)
-            {
-                throw new FileNotFoundException($"Failed to open config file of assembly '{assembly.Location}'", ex);
-            }
+            var value = mainSetting == null ? localSetting.Value : mainSetting.Value;
+            return value ?? string.Empty;
         }
     }
 }
