@@ -15,7 +15,6 @@ namespace ConfigEx
         public ConfigReader(IConfigProvider localConfigProvider, IConfigProvider mainConfigProvider)
         {
             Contract.Requires<ArgumentNullException>(localConfigProvider != null, "Local Config Provider can not be null");
-            Contract.Requires<ArgumentNullException>(mainConfigProvider != null, "Main Config Provider can not be null");
 
             _localConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(localConfigProvider));
             _mainConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(mainConfigProvider));
@@ -31,7 +30,8 @@ namespace ConfigEx
                 return null;
             }
 
-            if (!overridable)
+            // Do not read main configuration if the setting is not overridable or the main configuration is not provided.
+            if (!overridable || MainConfiguration == null)
             {
                 return localSetting.Value ?? string.Empty;
             }
@@ -45,6 +45,11 @@ namespace ConfigEx
 
         private static KeyValueConfigurationCollection GetConfig(IConfigProvider configProvider)
         {
+            if (configProvider == null)
+            {
+                return null;
+            }
+
             var config = configProvider.Get();
             Contract.Requires<Exception>(config != null, "Config Provider returned null Configuration");
 
