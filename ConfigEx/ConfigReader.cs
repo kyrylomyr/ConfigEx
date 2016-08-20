@@ -6,19 +6,19 @@ namespace ConfigEx
 {
     public sealed class ConfigReader : IConfigReader
     {
-        private readonly Lazy<KeyValueConfigurationCollection> _mainConfigurationLazy;
         private readonly Lazy<KeyValueConfigurationCollection> _localConfigurationLazy;
+        private readonly Lazy<KeyValueConfigurationCollection> _mainConfigurationLazy;
 
-        private KeyValueConfigurationCollection MainConfiguration => _mainConfigurationLazy.Value;
         private KeyValueConfigurationCollection LocalConfiguration => _localConfigurationLazy.Value;
+        private KeyValueConfigurationCollection MainConfiguration => _mainConfigurationLazy.Value;
 
-        public ConfigReader(IConfigProvider mainConfigProvider, IConfigProvider localConfigProvider)
+        public ConfigReader(IConfigProvider localConfigProvider, IConfigProvider mainConfigProvider)
         {
-            Contract.Requires<ArgumentNullException>(mainConfigProvider != null, "Main Config Provider can not be null");
             Contract.Requires<ArgumentNullException>(localConfigProvider != null, "Local Config Provider can not be null");
+            Contract.Requires<ArgumentNullException>(mainConfigProvider != null, "Main Config Provider can not be null");
 
-            _mainConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(mainConfigProvider));
             _localConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(localConfigProvider));
+            _mainConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(mainConfigProvider));
         }
 
         public string Get(string key, bool overridable = true)
