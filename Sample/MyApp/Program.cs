@@ -1,15 +1,25 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MyApp.RefLib;
 
 namespace MyApp
 {
-    class Program
+    internal class Program
     {
-        static void Main(string[] args)
+        private static void Main()
         {
+            var config = new MainConfig();
+
+            Console.WriteLine("*** Main Config settings ***");
+            Console.WriteLine($"{nameof(config.AppNameSetting)}: {config.AppNameSetting}");
+            Console.WriteLine($"{nameof(config.OverriddenSetting)}: {config.OverriddenSetting}");
+
+            Console.WriteLine();
+
+            var refLibConfig = new RefLibConfig();
+            var printer = new SettingsPrinter(refLibConfig);
+            printer.Print();
+
+            Console.Read();
         }
     }
 }

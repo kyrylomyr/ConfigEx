@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using System.Diagnostics.Contracts;
 
 namespace ConfigEx
 {
@@ -14,7 +13,8 @@ namespace ConfigEx
 
         public ConfigReader(IConfigProvider localConfigProvider, IConfigProvider mainConfigProvider)
         {
-            Contract.Requires<ArgumentNullException>(localConfigProvider != null, "Local Config Provider can not be null");
+            if (localConfigProvider == null)
+                throw new ArgumentNullException(nameof(localConfigProvider), "Local Config Provider can not be null");
 
             _localConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(localConfigProvider));
             _mainConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(mainConfigProvider));
@@ -22,7 +22,8 @@ namespace ConfigEx
 
         public string Get(string key, bool overridable = true)
         {
-            Contract.Requires<ArgumentException>(!string.IsNullOrEmpty(key), "Key can not be null or empty");
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentException("Key can not be null or empty", nameof(key));
 
             var localSetting = LocalConfiguration[key];
             if (localSetting == null)
@@ -51,12 +52,14 @@ namespace ConfigEx
             }
 
             var config = configProvider.Get();
-            Contract.Requires<Exception>(config != null, "Config Provider returned null Configuration");
+            if (config == null)
+                throw new Exception("Config Provider returned null Configuration");
 
-            var appSettings = config.AppSettings;
-            Contract.Requires<Exception>(appSettings != null, $"Config file '{config.FilePath}' does not contain appSettings section");
+            var settingsSection = config.AppSettings;
+            if (settingsSection == null)
+                throw new Exception($"Config file '{config.FilePath}' does not contain appSettings section");
 
-            return appSettings.Settings;
+            return settingsSection.Settings;
         }
     }
 }

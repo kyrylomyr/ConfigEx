@@ -9,7 +9,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{67CBE0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp", "Sample\MyApp\MyApp.csproj", "{0BDECECE-C14B-4577-9A5D-4F49D6DD5EB1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.RefLib", "MyApp.RefLib\MyApp.RefLib.csproj", "{02E52726-4EE7-4BE5-813A-471B7CC3119C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.RefLib", "Sample\MyApp.RefLib\MyApp.RefLib.csproj", "{02E52726-4EE7-4BE5-813A-471B7CC3119C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Tests", "Sample\MyApp.Tests\MyApp.Tests.csproj", "{07CD639C-9357-41DD-824C-87D11E0A447A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,6 +31,10 @@ Global
 		{02E52726-4EE7-4BE5-813A-471B7CC3119C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02E52726-4EE7-4BE5-813A-471B7CC3119C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02E52726-4EE7-4BE5-813A-471B7CC3119C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{07CD639C-9357-41DD-824C-87D11E0A447A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{07CD639C-9357-41DD-824C-87D11E0A447A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{07CD639C-9357-41DD-824C-87D11E0A447A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{07CD639C-9357-41DD-824C-87D11E0A447A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,5 +42,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{0BDECECE-C14B-4577-9A5D-4F49D6DD5EB1} = {67CBE01F-96E1-46A9-8B33-901D1FE4F29D}
 		{02E52726-4EE7-4BE5-813A-471B7CC3119C} = {67CBE01F-96E1-46A9-8B33-901D1FE4F29D}
+		{07CD639C-9357-41DD-824C-87D11E0A447A} = {67CBE01F-96E1-46A9-8B33-901D1FE4F29D}
 	EndGlobalSection
 EndGlobal

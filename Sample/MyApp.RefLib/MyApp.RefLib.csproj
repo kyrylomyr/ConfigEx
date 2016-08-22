@@ -40,13 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RefLibConfig.cs" />
+    <Compile Include="SettingsPrinter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ConfigEx\ConfigEx.csproj">
+    <ProjectReference Include="..\..\ConfigEx\ConfigEx.csproj">
       <Project>{b12851aa-bb4e-4381-9dd6-3d3d2763fbdc}</Project>
       <Name>ConfigEx</Name>
     </ProjectReference>
