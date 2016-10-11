@@ -6,6 +6,6 @@ namespace MyApp
     {
         public virtual string AppNameSetting => Get<string>();
 
-        public virtual string OverriddenSetting => Get<string>();
+        public virtual string OverriddenSetting => GetOverridden<string>();
     }
 }

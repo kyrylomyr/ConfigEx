@@ -15,6 +15,6 @@ namespace MyApp.RefLib
 
         public virtual DateTime CustomDateSetting => Get<DateTime>();
 
-        public virtual string OverriddenSetting => Get<string>();
+        public virtual string OverriddenSetting => GetOverridden<string>();
     }
 }

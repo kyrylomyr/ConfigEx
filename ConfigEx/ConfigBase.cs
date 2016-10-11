@@ -9,7 +9,8 @@ namespace ConfigEx
         private IConfigReader _configReader;
         private ITypeConverter _typeConverter;
 
-        protected ConfigBase(IConfigProvider localConfigProvider, IConfigProvider mainConfigProvider, ITypeConverter typeConverter)
+        protected ConfigBase(
+            IConfigProvider localConfigProvider, IConfigProvider mainConfigProvider, ITypeConverter typeConverter)
         {
             if (localConfigProvider == null)
                 throw new ArgumentNullException(nameof(localConfigProvider), "Local Config Provider can not be null");
@@ -58,12 +59,21 @@ namespace ConfigEx
             Init(null, null);
         }
 
-        protected T Get<T>(T defaultValue = default(T), bool overridable = true, [CallerMemberName] string key = null)
+        protected T Get<T>(T defaultValue = default(T), [CallerMemberName] string key = null)
         {
             if (string.IsNullOrEmpty(key))
                 throw new ArgumentException("Key can not be null or empty", nameof(key));
 
-            var value = _configReader.Get(key, overridable);
+            var value = _configReader.Get(key);
+            return value == null ? defaultValue : _typeConverter.Convert<T>(value);
+        }
+
+        protected T GetOverridden<T>(T defaultValue = default(T), [CallerMemberName] string key = null)
+        {
+            if (string.IsNullOrEmpty(key))
+                throw new ArgumentException("Key can not be null or empty", nameof(key));
+
+            var value = _configReader.GetOverridden(key);
             return value == null ? defaultValue : _typeConverter.Convert<T>(value);
         }
 
@@ -73,15 +83,16 @@ namespace ConfigEx
             _typeConverter = typeConverter ?? new TypeConverter();
         }
 
-        private static IConfigReader CreateConfigReader(IConfigProvider localConfigProvider, IConfigProvider mainConfigProvider)
+        private static IConfigReader CreateConfigReader(
+            IConfigProvider localConfigProvider, IConfigProvider mainConfigProvider)
         {
             return new ConfigReader(localConfigProvider, mainConfigProvider);
         }
 
         private IConfigProvider CreateLocalConfigProvider()
         {
-            // The current instance of ConfigBase derived type is expected to be located in the Assembly which config should be read.
-            // Thus, the Assembly of the current type is used for local config provider. It always exists.
+            // The current instance of ConfigBase derived type is expected to be in the Assembly which config should
+            // be read. Thus, the Assembly of the current type is used for the local config provider. It always exists.
             return new AssemblyConfigProvider(GetType().Assembly);
         }
 
