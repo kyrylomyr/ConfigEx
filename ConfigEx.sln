@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.RefLib", "Sample\MyAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyApp.Tests", "Sample\MyApp.Tests\MyApp.Tests.csproj", "{07CD639C-9357-41DD-824C-87D11E0A447A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyWebApp", "Sample\MyWebApp\MyWebApp.csproj", "{C786A848-A4F0-4C99-A1EF-72952540DD9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,8 @@ Global
 		{02E52726-4EE7-4BE5-813A-471B7CC3119C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07CD639C-9357-41DD-824C-87D11E0A447A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{07CD639C-9357-41DD-824C-87D11E0A447A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C786A848-A4F0-4C99-A1EF-72952540DD9B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C786A848-A4F0-4C99-A1EF-72952540DD9B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -37,5 +41,6 @@ Global
 		{0BDECECE-C14B-4577-9A5D-4F49D6DD5EB1} = {67CBE01F-96E1-46A9-8B33-901D1FE4F29D}
 		{02E52726-4EE7-4BE5-813A-471B7CC3119C} = {67CBE01F-96E1-46A9-8B33-901D1FE4F29D}
 		{07CD639C-9357-41DD-824C-87D11E0A447A} = {67CBE01F-96E1-46A9-8B33-901D1FE4F29D}
+		{C786A848-A4F0-4C99-A1EF-72952540DD9B} = {67CBE01F-96E1-46A9-8B33-901D1FE4F29D}
 	EndGlobalSection
 EndGlobal

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MyApp.RefLib
 {
@@ -14,10 +15,19 @@ namespace MyApp.RefLib
         public void Print()
         {
             Console.WriteLine("*** RefLib Config settings ***");
-            Console.WriteLine($"{nameof(_config.StringSetting)}: {_config.StringSetting}");
-            Console.WriteLine($"{nameof(_config.IntSetting)}: {_config.IntSetting}");
-            Console.WriteLine($"{nameof(_config.CustomDateSetting)}: {_config.CustomDateSetting}");
-            Console.WriteLine($"{nameof(_config.OverriddenSetting)}: {_config.OverriddenSetting}");
+            var text = string.Join(Environment.NewLine, GetSettingsList());
+            Console.WriteLine(text);
+        }
+
+        public List<string> GetSettingsList()
+        {
+            return new List<string>
+                   {
+                       $"{nameof(_config.StringSetting)}: {_config.StringSetting}",
+                       $"{nameof(_config.IntSetting)}: {_config.IntSetting}",
+                       $"{nameof(_config.CustomDateSetting)}: {_config.CustomDateSetting}",
+                       $"{nameof(_config.OverriddenSetting)}: {_config.OverriddenSetting}"
+                   };
         }
     }
 }
