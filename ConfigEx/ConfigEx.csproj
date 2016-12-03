@@ -46,9 +46,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyConfigProvider.cs" />
+    <Compile Include="AssemblyLocator.cs" />
     <Compile Include="ConfigBase.cs" />
     <Compile Include="IConfigProvider.cs" />
     <Compile Include="ITypeConverter.cs" />
+    <Compile Include="MainConfigAssemblyAttribute.cs" />
     <Compile Include="TypeConverter.cs" />
     <Compile Include="ConfigReader.cs" />
     <Compile Include="IConfigReader.cs" />

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 
 namespace ConfigEx
@@ -100,7 +99,7 @@ namespace ConfigEx
         {
             // Main config provider should be initialized with the default AssemblyConfigProvider and entry Assembly.
             // Entry Assembly can be null, and in this case the config provider should not be created.
-            var entryAssembly = Assembly.GetEntryAssembly();
+            var entryAssembly = AssemblyLocator.GetEntryAssembly();
             return entryAssembly != null ? new AssemblyConfigProvider(entryAssembly) : null;
         }
     }

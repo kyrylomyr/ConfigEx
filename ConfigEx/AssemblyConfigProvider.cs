@@ -21,11 +21,12 @@ namespace ConfigEx
         {
             try
             {
-                return ConfigurationManager.OpenExeConfiguration(_assembly.Location);
+                var dllPath = new Uri(_assembly.GetName().CodeBase).LocalPath;
+                return ConfigurationManager.OpenExeConfiguration(dllPath);
             }
             catch (Exception ex)
             {
-                throw new FileNotFoundException($"Failed to open config file of assembly '{_assembly.Location}'", ex);
+                throw new FileNotFoundException($"Failed to open config file of assembly '{_assembly.FullName}'", ex);
             }
         }
     }
