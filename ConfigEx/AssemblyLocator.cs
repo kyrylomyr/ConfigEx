@@ -16,12 +16,17 @@ namespace ConfigEx
         private static Assembly GetAssemblyWithAttribute()
         {
             var assemblies = AppDomain.CurrentDomain.GetAssemblies();
-            var entryAssemblies = from assembly in assemblies
-                                  let attribute = assembly.GetCustomAttributes(typeof(MainConfigAssemblyAttribute)).SingleOrDefault()
-                                  where attribute != null
-                                  select assembly;
+            var entryAssemblies = (from assembly in assemblies
+                                   let attribute = assembly.GetCustomAttributes(typeof (MainConfigAssemblyAttribute)).FirstOrDefault()
+                                   where attribute != null
+                                   select assembly).ToList();
 
-            return entryAssemblies.SingleOrDefault();
+            if (entryAssemblies.Count > 1)
+            {
+                throw new Exception("Only one assembly should be marked as main using the MainConfigAssemblyAttribute");
+            }
+
+            return entryAssemblies.FirstOrDefault();
         }
     }
 }
