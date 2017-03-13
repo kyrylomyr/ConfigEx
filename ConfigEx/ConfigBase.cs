@@ -78,7 +78,7 @@ namespace ConfigEx
 
         private void Init(IConfigReader configReader, ITypeConverter typeConverter)
         {
-            _configReader = configReader ?? CreateConfigReader(CreateLocalConfigProvider(), CreateMainConfigProvider());
+            _configReader = configReader ?? CreateConfigReader();
             _typeConverter = typeConverter ?? new TypeConverter();
         }
 
@@ -88,19 +88,41 @@ namespace ConfigEx
             return new ConfigReader(localConfigProvider, mainConfigProvider);
         }
 
-        private IConfigProvider CreateLocalConfigProvider()
+        private IConfigReader CreateConfigReader()
         {
             // The current instance of ConfigBase derived type is expected to be in the Assembly which config should
             // be read. Thus, the Assembly of the current type is used for the local config provider. It always exists.
-            return new AssemblyConfigProvider(GetType().Assembly);
-        }
+            var localAssembly = GetType().Assembly;
 
-        private static IConfigProvider CreateMainConfigProvider()
-        {
-            // Main config provider should be initialized with the default AssemblyConfigProvider and entry Assembly.
-            // Entry Assembly can be null, and in this case the config provider should not be created.
-            var entryAssembly = AssemblyLocator.GetEntryAssembly();
-            return entryAssembly != null ? new AssemblyConfigProvider(entryAssembly) : null;
+            // However, it can be the main assembly of Web project. Thus, we need to read the config another way - as
+            // a Web.config. So, first need to find the main assembly and compare with the current one.
+            var mainAssemblyInfo = AssemblyLocator.GetEntryAssembly();
+            if (mainAssemblyInfo == null)
+            {
+                // The main assembly can be null. In that case it will be possible to read only the local config.
+                // If the main config is a Web.config, the reader will fail - the main assembly should be marked
+                // with the MainConfigAssemblyAttribute.
+                return new ConfigReader(new AssemblyConfigProvider(localAssembly), null);
+            }
+
+            // If the local and main assemblies are the same assemblies, then create config provider according
+            // to the assembly type. The main config provider is not needed in this case.
+            if (localAssembly.FullName == mainAssemblyInfo.Assembly.FullName)
+            {
+                return mainAssemblyInfo.Type == ConfigAssemblyType.ClassLibrary
+                           ? new ConfigReader(new AssemblyConfigProvider(localAssembly), null)
+                           : new ConfigReader(new WebConfigProvider(), null);
+            }
+
+            // If the local and main assemblies are different, then the local config is a regular App.config, and the
+            // main config should be read according to the main assembly type.
+            return mainAssemblyInfo.Type == ConfigAssemblyType.ClassLibrary
+                           ? new ConfigReader(
+                               new AssemblyConfigProvider(localAssembly),
+                               new AssemblyConfigProvider(mainAssemblyInfo.Assembly))
+                           : new ConfigReader(
+                               new AssemblyConfigProvider(localAssembly),
+                               new WebConfigProvider());
         }
     }
 }

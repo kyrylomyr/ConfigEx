@@ -14,7 +14,9 @@ namespace ConfigEx
         public ConfigReader(IConfigProvider localConfigProvider, IConfigProvider mainConfigProvider)
         {
             if (localConfigProvider == null)
+            {
                 throw new ArgumentNullException(nameof(localConfigProvider), "Local Config Provider can not be null");
+            }
 
             _localConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(localConfigProvider));
             _mainConfigurationLazy = new Lazy<KeyValueConfigurationCollection>(() => GetConfig(mainConfigProvider));
@@ -23,7 +25,9 @@ namespace ConfigEx
         public string Get(string key)
         {
             if (string.IsNullOrEmpty(key))
+            {
                 throw new ArgumentException("Key can not be null or empty", nameof(key));
+            }
 
             var localSetting = LocalConfiguration[key];
 
@@ -63,11 +67,15 @@ namespace ConfigEx
 
             var config = configProvider.Get();
             if (config == null)
+            {
                 throw new Exception("Config Provider returned null Configuration");
+            }
 
             var settingsSection = config.AppSettings;
             if (settingsSection == null)
+            {
                 throw new Exception($"Config file '{config.FilePath}' does not contain appSettings section");
+            }
 
             return settingsSection.Settings;
         }

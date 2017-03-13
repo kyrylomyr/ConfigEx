@@ -12,22 +12,23 @@ namespace ConfigEx
         public AssemblyConfigProvider(Assembly assembly)
         {
             if (assembly == null)
+            {
                 throw new ArgumentNullException(nameof(assembly), "Assembly can not be null");
+            }
 
             _assembly = assembly;
         }
 
         public Configuration Get()
         {
-            try
+            var dllPath = new Uri(_assembly.GetName().CodeBase).LocalPath;
+            var configuration = ConfigurationManager.OpenExeConfiguration(dllPath);
+            if (configuration.HasFile)
             {
-                var dllPath = new Uri(_assembly.GetName().CodeBase).LocalPath;
-                return ConfigurationManager.OpenExeConfiguration(dllPath);
+                return configuration;
             }
-            catch (Exception ex)
-            {
-                throw new FileNotFoundException($"Failed to open config file of assembly '{_assembly.FullName}'", ex);
-            }
+
+            throw new FileNotFoundException($"Failed to open config file '{configuration.FilePath}'");
         }
     }
 }
