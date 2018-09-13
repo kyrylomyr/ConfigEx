@@ -109,14 +109,14 @@ namespace ConfigEx
             // to the assembly type. The main config provider is not needed in this case.
             if (localAssembly.FullName == mainAssemblyInfo.Assembly.FullName)
             {
-                return mainAssemblyInfo.Type == ConfigAssemblyType.ClassLibrary
+                return mainAssemblyInfo.Type == ConfigAssemblyType.TestMainAssembly
                            ? new ConfigReader(new AssemblyConfigProvider(localAssembly), null)
                            : new ConfigReader(new WebConfigProvider(), null);
             }
 
             // If the local and main assemblies are different, then the local config is a regular App.config, and the
             // main config should be read according to the main assembly type.
-            return mainAssemblyInfo.Type == ConfigAssemblyType.ClassLibrary
+            return mainAssemblyInfo.Type == ConfigAssemblyType.TestMainAssembly
                            ? new ConfigReader(
                                new AssemblyConfigProvider(localAssembly),
                                new AssemblyConfigProvider(mainAssemblyInfo.Assembly))

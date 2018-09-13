@@ -3,7 +3,7 @@
   <metadata>
     <id>ConfigEx</id>
     <title>ConfigEx</title>
-    <version>2.2.0</version>
+    <version>2.3.0</version>
     <authors>Kyrylo Myroshnychenko</authors>
     <owners>Kyrylo Myroshnychenko</owners>
     <licenseUrl>https://github.com/kirmir/ConfigEx/blob/master/LICENSE</licenseUrl>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Reads main and local assembly configurations.</description>
     <releaseNotes>Implemented WebConfigProvider and changed the logic how default config providers are created. Fixed the issue with reading Web.config. MainConfigAssemblyAttribute from now has the parameter to define the assembly type, so the right config provider will be used.</releaseNotes>
-    <copyright>Copyright 2017</copyright>
+    <copyright>Copyright 2018</copyright>
     <tags>c# config configuration setting</tags>
   </metadata>
   <files>

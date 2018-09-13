@@ -1,17 +1,17 @@
 ﻿namespace ConfigEx
 {
     /// <summary>
-    /// Defines the type of config Assembly.
+    /// Defines the type of config assembly.
     /// </summary>
     public enum ConfigAssemblyType
     {
         /// <summary>
-        /// The App.config at the same location where the Assembly is located itself will be used.
+        /// The App.config of the test project assembly will be used.
         /// </summary>
-        ClassLibrary,
+        TestMainAssembly,
 
         /// <summary>
-        /// The Web.config will be used.
+        /// The Web.config of the Web project assembly will be used.
         /// </summary>
         WebMainAssembly
     }

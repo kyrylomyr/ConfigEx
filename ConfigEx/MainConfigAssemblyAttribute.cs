@@ -14,7 +14,7 @@ namespace ConfigEx
         /// Initializes a new instance of the <see cref="MainConfigAssemblyAttribute"/> class.
         /// </summary>
         /// <param name="type">The config Assembly type.</param>
-        public MainConfigAssemblyAttribute(ConfigAssemblyType type = ConfigAssemblyType.ClassLibrary)
+        public MainConfigAssemblyAttribute(ConfigAssemblyType type = ConfigAssemblyType.TestMainAssembly)
         {
             AssemblyType = type;
         }
